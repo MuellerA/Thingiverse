@@ -4,6 +4,7 @@ CP       = /bin/cp -a
 ALL:	TV/batteryC.stl   \
 	TV/batteryAA.stl  \
 	TV/batteryAAA.stl \
+	TV/batteryDemo.stl\
 	TV/battery.scad
 
 Clean:
