@@ -3,9 +3,10 @@ CP       = /bin/cp -a
 RM       = /bin/rm -f
 
 Files   = TV/RodWallHolder.stl \
-	  TV/RodWallHolder.jpg \
 	  TV/RodWallHolder.png \
 	  TV/RodWallHolder.scad \
+	  TV/RodWallHolder.jpg \
+	  TV/Customizer.png
 
 ALL:	$(Files)
 
@@ -22,4 +23,7 @@ TV/RodWallHolder.scad: RodWallHolder.scad
 	$(CP) $< $@
 
 TV/RodWallHolder.jpg: Images/RodWallHolder.jpg
+	$(CP) $< $@
+
+TV/Customizer.png: Images/Customizer.png
 	$(CP) $< $@

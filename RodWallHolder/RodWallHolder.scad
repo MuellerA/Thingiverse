@@ -37,14 +37,14 @@ module rodHolder(h, d, w, b, sd, open=0, cut=0)
       rotate_extrude($fn = 90)
       difference()
       {
-        polygon( points=[ [0, 0], [x, 0], [x, w], [d/2 + 2*w, w], [d/2 + w, 2*w], [d/2 + w, h], [d/2, h], [d/2, w], [0, w] ]) ;//[d+w, w], [d/2+w, d/2+w], [d/2+w, h], [d/2, h], [d/2, w], [0, w] ]) ;
+        polygon( points=[ [0, 0], [x, 0], [x, w], [d/2 + 2*w, w], [d/2 + w, 2*w], [d/2 + w, h+w], [d/2, h+w], [d/2, w], [0, w] ]) ;
         translate([d/2+2*w, 2*w]) circle(r = w, $fn = 60) ;
       }
     }
     if (open == 1)
-      translate([0, (b+d)/2,h/2+w]) cube([d, b+d, h], center=true) ;
+      translate([0, (b+d)/2,h/2+2*w]) cube([d, b+d, h+2*w], center=true) ;
     if (open == 2)
-      translate([0,-(b+d)/2,h/2+w]) cube([d, b+d, h], center=true) ;
+      translate([0,-(b+d)/2,h/2+2*w]) cube([d, b+d, h+2*w], center=true) ;
       
 
     hull()
