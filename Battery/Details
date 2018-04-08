@@ -1,0 +1,13 @@
+[Summary]
+AA, AAA, C battery replacement (or use the Customizer to create a different size).
+
+Getting annoyed of an always empty battery I created this, put a cheap Chinese 5V to 1.5V buck converter inside and attached an USB-A connector to it.
+
+Source is also available at https://github.com/MuellerA/Thingiverse/tree/master/Battery
+[AAA and C not tested]
+
+[Tags]
+battery customized openscad parametric
+
+[Design Tools]
+OpenSCAD

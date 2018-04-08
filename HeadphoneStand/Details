@@ -1,0 +1,35 @@
+[Summary]
+Yet another Headphone Stand. But this one is customizable, see the image above for the available options. The .STL files were created with Height=205, Length=50 and Angle=70.
+
+There is one more option for round edges, which is disabled in the online Customizer because it takes a long time to generated the .STL file.
+
+If you want a customized version with round edges you have to
+
+    download and install OpenSCAD (www.openscad.org)
+    load the headphonestand.scad file in OpenSCAD and edit the variables at the top
+    press F5 and wait for the first time
+    press F6 and wait for the second time (if you get an error - I most times do - select "Design/Flush Caches" from the menu and press F6 again)
+    select "File/Export/Export as STL..." from the menu
+
+Source is also available at https://github.com/MuellerA/Thingiverse/tree/master/HeadphoneStand
+
+[Print Settings]
+Rafts:
+No
+
+Supports:
+No
+
+Infill:
+15%
+
+
+Notes:
+Printed in two parts and glued together.
+
+[Tags]
+customizable headphone openscad parametric
+
+
+[Design Tools]
+OpenSCAD
