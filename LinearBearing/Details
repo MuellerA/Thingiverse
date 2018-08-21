@@ -4,7 +4,7 @@ Linear Bearing (SCS6UU, SCS8UU)
 [Summary]
 This Thing is only useful in combination with [mightynozzle's](https://www.thingiverse.com/mightynozzle) [Customizable Linear Bushing / Bearing](https://www.thingiverse.com/thing:2202854).
 
-First create the LM*n*UU STL file with [Customizable Linear Bushing / Bearing](https://www.thingiverse.com/thing:2202854).
+First create the LM*n*UU STL file with [Customizable Linear Bushing / Bearing](https://www.thingiverse.com/thing:2202854). The settings for bushing_length_in_millimeter however must match the value in the L column of BearingParam in this OpenSCAD file, else the LM*n*UU is too short. E.g 25 for LM6UU and 30 for LM8UU.
 Then include the created STL file in this OpenSCAD file to create the SCS*n*UU linear bearing STL file.
 As "include" does not work in the online customizer you have to use OpenSCAD.
 
