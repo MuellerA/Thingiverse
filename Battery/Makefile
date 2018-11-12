@@ -2,7 +2,8 @@ OPENSCAD = /usr/bin/openscad
 CP       = /bin/cp -a
 RM       = /bin/rm -f
 
-Files   = TV/batteryC.stl   \
+Files   = TV/batteryD.stl   \
+	  TV/batteryC.stl   \
 	  TV/batteryAA.stl  \
 	  TV/batteryAAA.stl \
 	  TV/batteryDemo.png\
