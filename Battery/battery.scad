@@ -3,8 +3,8 @@
 // https://en.wikipedia.org/wiki/List_of_battery_sizes
 //
 // https://en.wikipedia.org/wiki/AA_battery
-// An AA cell measures 49.2–50.5 mm (1.94–1.99 in) in length, including the
-// button terminal—and 13.5–14.5 mm (0.53–0.57 in) in diameter. The positive
+// An AA cell measures 49.2-50.5 mm (1.94-1.99 in) in length, including the
+// button terminal-and 13.5-14.5 mm (0.53-0.57 in) in diameter. The positive
 // terminal button should be a minimum 1 mm high and a maximum 5.5 mm in
 // diameter, the flat negative terminal should be a minimum diameter of 7 mm
 //
