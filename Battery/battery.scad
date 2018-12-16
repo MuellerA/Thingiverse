@@ -40,12 +40,20 @@ cWidth  = 3 ; // wall width
 cPin    = 4 ; // pin height
 cWire   = 5 ; // wire diameter
 
+/*
+  D   Overall Length: 61.5mm (http://data.energizer.com/pdfs/e95.pdf)
+  C   Overall Length: 50.0mm (http://data.energizer.com/pdfs/e93.pdf)
+  AA  Overall Length: 50.5mm (http://data.energizer.com/pdfs/e91.pdf)
+  AAA Overall Length: 44.5mm (http://data.energizer.com/pdfs/l92.pdf)
+*/
+
+// Note: Battery length is the height of the battery body and plus the pin height.
 Batt =
 [ // name, radi, heig, wid, pin, wire
-  [ "D"  , 17.1, 61.5, 1.5, 1  , 1.2 ],
-  [ "C"  , 13.1, 50  , 1.5, 1.3, 1.2 ],
-  [ "AA" ,  7  , 48.4, 1.2, 1  , 1.2 ],
-  [ "AAA",  5.2, 43.5, 1  , 1  , 1.2 ]
+  [ "D"  , 17.1, 60.0, 1.5, 1.5, 1.2 ],
+  [ "C"  , 13.1, 48.5, 1.5, 1.5, 1.2 ],
+  [ "AA" ,  7  , 49.5, 1.2, 1  , 1.2 ],
+  [ "AAA",  5.2, 43.7, 1  , 0.8, 1.2 ]
 ] ;
 
 $fa =  5 ;
