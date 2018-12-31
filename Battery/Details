@@ -1,10 +1,13 @@
 [Summary]
-AA, AAA, C battery replacement (or use the Customizer to create a different size).
+AA, AAA, C and D battery replacement (or use the Customizer to create a different size). [mofosyne](https://www.thingiverse.com/mofosyne) created an [easier to print version](https://www.thingiverse.com/thing:3285906)
 
 Getting annoyed of an always empty battery I created this, put a cheap Chinese 5V to 1.5V buck converter inside and attached an USB-A connector to it.
 
 Source is also available at https://github.com/MuellerA/Thingiverse/tree/master/Battery
-[AAA and C not tested]
+
+Update 2018-11-12: Add type D battery
+Update 2018-12-16: Update dimensions as suggested by mofosyne
+Update 2018-12-31: Update wire hole positions, update dimensions
 
 [Tags]
 battery customized openscad parametric
