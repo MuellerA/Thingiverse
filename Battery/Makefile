@@ -7,6 +7,10 @@ Files   = TV/batteryD.stl   \
 	  TV/batteryAA.stl  \
 	  TV/batteryAAA.stl \
 	  TV/batteryDemo.png\
+	  TV/batteryD.tie.stl   \
+	  TV/batteryC.tie.stl   \
+	  TV/batteryAA.tie.stl  \
+	  TV/batteryAAA.tie.stl \
 	  TV/battery.scad   \
           TV/battery1.jpg   \
           TV/battery2.jpg   \
@@ -17,11 +21,13 @@ ALL:	$(Files)
 Clean:
 	$(RM) TV/*
 
-file2param = $(subst TV/battery,,$(subst .$(2),,$(1)))
+file2param = $(subst TV/battery,,$(subst .$(2),,$(subst .tie.,.,$(1))))
 
+TV/battery%.tie.stl: battery.scad
+	$(OPENSCAD) -o $@ -D battery_type='"'$(call file2param,$@,stl)'"' -D zip_tie='"On"' $<
 
 TV/battery%.stl: battery.scad
-	$(OPENSCAD) -o $@ -D battery_type='"'$(call file2param,$@,stl)'"' $<
+	$(OPENSCAD) -o $@ -D battery_type='"'$(call file2param,$@,stl)'"' -D zip_tie='"Off"' $<
 
 TV/battery%.png: battery.scad
 	$(OPENSCAD) -o $@ -D battery_type='"'$(call file2param,$@,png)'"' --imgsize=800,600 --autocenter --projection=p --render $<

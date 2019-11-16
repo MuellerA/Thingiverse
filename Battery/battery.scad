@@ -5,7 +5,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // battery type (for the 'Generic' type set the values in the 'Generic Battery' section below)
-battery_type    = "AA" ; // [AAA,AA,C,D,Generic,Demo]
+battery_type    = "AA" ; // [AAA,AA,C,D,Generic]
+
+// add zip tie holder
+zip_tie = "On" ; // [On,Off]
+
+/* [Settings for ZipTie (mm)] */
+// width of zip tie hole
+zipTieWidth = 8 ;
+// offset from top/bottom
+zipTieOffset = 10 ;
 
 /* [Settings for Generic Battery (mm)] */
 // diameter of the body
@@ -61,7 +70,7 @@ $fs =  0.4 ;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module battery(batt)
+module battery(batt, zipTieWidth=0, zipTieOffset=0)
 {
   radius = batt[cDiameter] / 2 ;
   height = batt[cHeight] - batt[cPinHeight] ;
@@ -110,16 +119,47 @@ module battery(batt)
         cylinder(h=2*radius, r=radius) ;
     }
   }
+
+  if (zipTieWidth > 0)
+  {
+    intersection()
+    {
+      cylinder(h=height, r=radius);
+
+      color("lightblue")
+      difference()
+      {
+        dL = zipTieOffset ;
+        cL = zipTieWidth ;
+
+        w = batt[cWidth] ;
+        l = cL + 2*w ;
+        h = radius ;
+
+        union()
+        {
+          translate([h/2+w, 0, l/2+dL]) cube([h, 2*w, l], center=true) ;
+          translate([h/2+w, 0, batt[cHeight]-l/2-dL]) cube([h, 2*w, l], center=true) ;
+        }
+
+        union()
+        {
+          translate([3*w, 0, l/2+dL]) cube([2*w, 3*w, cL], center=true) ;
+          translate([3*w, 0, batt[cHeight]-l/2-dL]) cube([2*w, 3*w, cL], center=true) ;
+        }
+      }
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module batteryType(battery_type, body_diameter, body_height, body_wall_width, pin_diameter, pin_height, wire_diameter)
+module batteryType(battery_type, body_diameter, body_height, body_wall_width, pin_diameter, pin_height, wire_diameter, zipTieWidth, zipTieOffset)
 {
   idx = search([battery_type], Batt) ;
   if (idx != [[]])
   {
-    battery(Batt[idx[0]]) ;
+    battery(Batt[idx[0]], zipTieWidth, zipTieOffset) ;
   }
   else if (battery_type == "Demo")
   {
@@ -128,9 +168,9 @@ module batteryType(battery_type, body_diameter, body_height, body_wall_width, pi
     iAA  = search(["AA" ], Batt) ;   rAA  = Batt[iAA [0]][cDiameter] / 2 ;
     iAAA = search(["AAA"], Batt) ;   rAAA = Batt[iAAA[0]][cDiameter] / 2 ;
 
-    dD   =   rD                              ; translate([-rD  , dD  , 0]) batteryType("D"  ) ;
+    dD   =   rD                              ; translate([-rD  , dD  , 0]) batteryType("D"  , zipTieWidth=10, zipTieOffset=10) ;
     dC   = 2*rD +   rC                  + 10 ; translate([-rC  , dC  , 0]) batteryType("C"  ) ;
-    dAA  = 2*rD + 2*rC +   rAA          + 20 ; translate([-rAA , dAA , 0]) batteryType("AA" ) ;
+    dAA  = 2*rD + 2*rC +   rAA          + 20 ; translate([-rAA , dAA , 0]) batteryType("AA" , zipTieWidth=8, zipTieOffset=6) ;
     dAAA = 2*rD + 2*rC + 2*rAA +   rAAA + 30 ; translate([-rAAA, dAAA, 0]) batteryType("AAA") ;
   }
   else
@@ -141,9 +181,12 @@ module batteryType(battery_type, body_diameter, body_height, body_wall_width, pi
 
 ////////////////////////////////////////////////////////////////////////////////
 
+ztw = (zip_tie == "On") ? zipTieWidth  : 0 ;
+zto = (zip_tie == "On") ? zipTieOffset : 0 ;
+
 rotate([0,0,180])
 rotate([0, 90, 0])
-  batteryType(battery_type, body_diameter, body_height, body_wall_width, pin_diameter, pin_height, wire_diameter) ;
+batteryType(battery_type, body_diameter, body_height, body_wall_width, pin_diameter, pin_height, wire_diameter, ztw, zto) ;
 
 ////////////////////////////////////////////////////////////////////////////////
 // EOF
