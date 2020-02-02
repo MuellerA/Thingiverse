@@ -1,6 +1,8 @@
 [Summary]
 When playing with electronics I don't like the PCBs lying around naked. So I made them some nice Victorian trousers to wear.
 
+As all PCBs are different, the trousers are customizable. Unfortunately the online Customizer does not work, so you have to install OpenSCAD.
+
 The file "use"d as a OpenSCAD library may be useful when designing the furnishings of an electronic modules case.
 
 Source is also available at https://github.com/MuellerA/Thingiverse/tree/master/PCB
