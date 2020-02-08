@@ -108,7 +108,7 @@ module PcbClip(clipLength, wallWidth, clipRight)
 ////////////////////////////////////////////////////////////////////////////////
 
 module PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
-                 pins=undef, cuts=undef, clip=[ 10, 5 ], fingerHoleEnable=true,
+                 pins=undef, cuts=undef, clip=undef, fingerHoleEnable=false,
                  baseEnable=false, screw=undef)
 {
   module screw(lr, d, screwOuter, screwOffsetX, screwOffsetY)
@@ -283,6 +283,8 @@ module PcbNodeMcu2(baseEnable = false, screw = undef)
   railHeight =  1.6 ;
   railOffset =  3   ;
 
+  clip = [ 10, 5 ] ;
+  
   pinRadius = 1 ;
   pinD = 2.7 ;
   pins =
@@ -299,7 +301,7 @@ module PcbNodeMcu2(baseEnable = false, screw = undef)
   ] ;
 
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
-            pins=pins, cuts=cuts, baseEnable=baseEnable, screw = screw) ;
+            clip=clip, pins=pins, cuts=cuts, fingerHoleEnable=true, baseEnable=baseEnable, screw = screw) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -435,6 +437,7 @@ module PcbMyPower(baseEnable = false, screw = undef)
               pins=pins,
               cuts=cuts,
               clip=clip,
+              fingerHoleEnable=true,
               baseEnable=baseEnable,
               screw=screw) ;
 
@@ -466,6 +469,7 @@ module PcbArduinoProMiniWithConnector(baseEnable = false, screw = undef)
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
             cuts=cuts,
             clip=clip,
+            fingerHoleEnable=true,
             baseEnable=baseEnable,
             screw = screw) ;
 }
@@ -492,7 +496,6 @@ module PcbSi4703(baseEnable = false, screw = undef)
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
             cuts=cuts,
             clip=clip,
-            fingerHoleEnable=false,
             baseEnable=baseEnable,
             screw = screw) ;
 }
@@ -700,7 +703,7 @@ module PcbUln2003(baseEnable = false, screw = undef)
   ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
-            pins=pins, clip=clip, baseEnable=true, screw=screw) ;
+            pins=pins, clip=clip, fingerHoleEnable=true, baseEnable=true, screw=screw) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -725,6 +728,8 @@ module PcbLonganNano(baseEnable = false, screw = undef)
     }
   }
 
+  clip = [ 10, 5 ] ;
+  
   // cuts: array of (centerOffsetX, centerOffsetY, width, length, optionalOffsetH)
   cuts =
     [
@@ -736,7 +741,7 @@ module PcbLonganNano(baseEnable = false, screw = undef)
   translate([+pcbWidth/2+0.01, 1.5, 0]) MiddlePin(+1) ;
   translate([-pcbWidth/2-0.01, 1.5, 0]) MiddlePin(-1) ;
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
-            cuts=cuts, baseEnable=baseEnable, fingerHoleEnable=false, screw = screw) ;
+            clip=clip, cuts=cuts, baseEnable=baseEnable, screw = screw) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -750,13 +755,15 @@ module PcbMy74595(baseEnable = false, screw=screw)
   railHeight =  2.0 ;
   railOffset =  0.0 ;
 
+  clip = [ 10, 5 ] ;
+
   cuts =
     [
       [ pcbLength/2, 0, wallWidth * 3, 21, pcbHeight-1 ]
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
-            cuts=cuts, baseEnable=baseEnable, screw=screw) ;
+            clip=clip, cuts=cuts, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -778,7 +785,7 @@ module PcbFtdi(baseEnable = false, screw = undef)
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
-            cuts=cuts, clip=clip, baseEnable=baseEnable, screw = screw) ;
+            cuts=cuts, clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw = screw) ;
 }   
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -807,7 +814,7 @@ module PcbTja1050(baseEnable = false, screw=undef)
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
-            pins=pins, cuts=cuts, clip=clip, baseEnable=baseEnable, screw=screw) ;
+            pins=pins, cuts=cuts, clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -829,7 +836,7 @@ module PcbEsp01Breakout(baseEnable = false, screw=undef)
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
-            cuts=cuts, clip=clip, baseEnable=baseEnable, screw=screw) ;
+            cuts=cuts, clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
