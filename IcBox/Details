@@ -1,0 +1,11 @@
+[Summary]
+Customizable IC Box.
+
+Before you print check the bridging: Several slicers insisted on bridging the outer rows in the long direction.
+To convince the slicer to bridge in the short direction I had to enter expert mode and add settings infill/bridging angle.
+
+[Tags]
+customizable ic openscad parametric
+
+[Design Tools]
+OpenSCAD
