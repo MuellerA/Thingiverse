@@ -5,7 +5,7 @@
 // customizer
 
 // PCB type (for the 'Generic' type set the values in the 'Generic PCB' section below)
-type    = "NodeMcu2" ; // [NodeMcu2,ArduinoProMini,Ftdi,LonganNano,Tja1050,Esp01Breakout,Generic]
+type    = "NodeMcu2" ; // [NodeMcu2,ArduinoProMini,Ftdi,LonganNano,Tja1050,Esp01Breakout,Si4703,UbloxNeo6M,Generic]
 
 /* [Add Screw to base (mm)] */
 
@@ -63,6 +63,8 @@ module PcbCustomizer(type, length, width, height, wallWidth, railHeight, railOff
   else if (type == "LonganNano"    ) { PcbLonganNano(true, screw) ;                  }
   else if (type == "Tja1050"       ) { PcbTja1050(true, screw) ;                     }
   else if (type == "Esp01Breakout" ) { PcbEsp01Breakout(true, screw) ;               }
+  else if (type == "UbloxNeo6M"    ) { PcbUbloxNeo6M(true, screw) ;                  }
+  else if (type == "Si4703"        ) { PcbSi4703(true, screw) ;                      }
   else // Generic
   {
     clip  = clipEnable  ? [ clipOffset, clipLength ] : undef ;
@@ -489,7 +491,7 @@ module PcbSi4703(baseEnable = false, screw = undef)
 
   cuts =
     [
-      [ pcbLength/2+wallWidth/2, 8, 2*wallWidth, 12 ],
+      [ pcbLength/2+wallWidth/2, 8, 2*wallWidth, 12, pcbHeight ],
       [ 3.5, pcbWidth/2-railOffset-wallWidth/2, 6, 2*wallWidth, -railHeight ]
     ] ;
   
@@ -768,6 +770,23 @@ module PcbMy74595(baseEnable = false, screw=screw)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+module PcbBuckConv_1V25_5V_3A(showBase=false, screw=undef)
+{
+  pcbLength  = 30.5 ;
+  pcbWidth   = 20.5 ;
+  pcbHeight  =  1.5 ;
+  wallWidth  =  0.8 ;
+  baseHeight =  2   ;
+  baseOffset =  5   ;
+  pins       =  [ ] ;  
+  cuts       =  [ ] ;
+  clip       = [ 3, 5 ] ;
+  PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
+            pins, cuts, clip, fingerHoleEnable=true, baseEnable=showBase, screw=screw) ;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 module PcbFtdi(baseEnable = false, screw = undef)
 {
   pcbLength  = 36.5 ;
@@ -785,7 +804,7 @@ module PcbFtdi(baseEnable = false, screw = undef)
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
-            cuts=cuts, clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw = screw) ;
+            cuts=cuts, clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
 }   
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -837,6 +856,28 @@ module PcbEsp01Breakout(baseEnable = false, screw=undef)
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
             cuts=cuts, clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+module PcbUbloxNeo6M(baseEnable = false, srew=undef)
+{
+  pcbLength  = 24.0 + 0.8 ;
+  pcbWidth   = 36.2 + 0.8 ;
+  pcbHeight  =  1.2 ;
+  wallWidth  =  0.8 ;
+  railHeight =  2.0 ;
+  railOffset =  8.0 ;
+
+  clip = [ 3, 3.5 ] ;
+  pins =
+    [
+      [ +pcbLength/2 - 3.5, +pcbWidth/2 - 3.5, 1.1 ],
+      [ -pcbLength/2 + 3.5, +pcbWidth/2 - 3.5, 1.1 ]
+    ] ;
+
+  PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
+            clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
