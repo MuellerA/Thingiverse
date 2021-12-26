@@ -103,7 +103,7 @@ module PcbClip(clipLength, wallWidth, clipRight)
 {
   mirror([clipRight, 0, 0])
   rotate([90, 0, 0])
-  linear_extrude(height=clipLength-wallWidth/2, center=true)
+  linear_extrude(height=clipLength-wallWidth/2-0.1, center=true)
   polygon(points=[ [ 0, 0], [ wallWidth, 0], [ wallWidth, wallWidth], [ 0, wallWidth ], [ -wallWidth/2, wallWidth/2] ]) ;
 }
 
@@ -200,7 +200,7 @@ module PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffs
 
     if (cuts != undef)
     {
-#     for (cut = cuts)
+     for (cut = cuts)
       {
         offsetH = (cut[4] != undef) ? cut[4] : 0;
         translate([cut[1], cut[0], railHeight + (pcbHeight + wallWidth+1-offsetH)/2 + offsetH])
@@ -860,10 +860,31 @@ module PcbEsp01Breakout(baseEnable = false, screw=undef)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-module PcbUbloxNeo6M(baseEnable = false, srew=undef)
+module PcbUbloxNeo6Mred(baseEnable = false, srew=undef)
 {
   pcbLength  = 24.0 + 0.8 ;
   pcbWidth   = 36.2 + 0.8 ;
+  pcbHeight  =  1.2 ;
+  wallWidth  =  0.8 ;
+  railHeight =  2.0 ;
+  railOffset =  8.0 ;
+
+  clip = [ 3, 3.5 ] ;
+  pins =
+    [
+      [ +pcbLength/2 - 3.5, +pcbWidth/2 - 3.5, 1.1 ],
+      [ -pcbLength/2 + 3.5, +pcbWidth/2 - 3.5, 1.1 ]
+    ] ;
+
+  PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
+            clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+module PcbUbloxNeo6Mblue(baseEnable = false, srew=undef)
+{
+  pcbLength  = 26.6 + 0.8 ;
+  pcbWidth   = 35.8 + 0.8 ;
   pcbHeight  =  1.2 ;
   wallWidth  =  0.8 ;
   railHeight =  2.0 ;
