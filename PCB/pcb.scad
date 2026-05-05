@@ -5,7 +5,7 @@
 // customizer
 
 // PCB type (for the 'Generic' type set the values in the 'Generic PCB' section below)
-type    = "NodeMcu2" ; // [NodeMcu2,ArduinoProMini,Ftdi,LonganNano,Tja1050,Esp01Breakout,Si4703,UbloxNeo6M,Generic]
+type    = "NodeMcu2" ; // [28BYJ,ArduinoProMiniWithConnector,BuckConv_1V25_5V_3A,Esp01Breakout,Esp32C5DevKitChina,Ftdi,GpsWithAntenna,Lcd1602,LonganNano,My74595,MyPower,NodeMcu2,SdCard,Si4703,Ssd1306,Tja1050,TouchButton,UbloxNeo6Mblue,UbloxNeo6Mred,Uln2003,Ws2812,Generic]
 
 /* [Add Screw to base (mm)] */
 
@@ -57,14 +57,27 @@ module PcbCustomizer(type, length, width, height, wallWidth, railHeight, railOff
 {
   screw = screwEnable ? [ screwOuter, screwInner, screwHeight, screwOffsetX, screwOffsetY ] : undef ;
   
-  if      (type == "NodeMcu2"      ) { PcbNodeMcu2(true, screw) ;                    }
-  else if (type == "ArduinoProMini") { PcbArduinoProMiniWithConnector(true, screw) ; }
-  else if (type == "Ftdi"          ) { PcbFtdi(true, screw) ;                        }
-  else if (type == "LonganNano"    ) { PcbLonganNano(true, screw) ;                  }
-  else if (type == "Tja1050"       ) { PcbTja1050(true, screw) ;                     }
-  else if (type == "Esp01Breakout" ) { PcbEsp01Breakout(true, screw) ;               }
-  else if (type == "UbloxNeo6M"    ) { PcbUbloxNeo6M(true, screw) ;                  }
-  else if (type == "Si4703"        ) { PcbSi4703(true, screw) ;                      }
+  if      (type == "28BYJ"                      ) { Pcb28BYJ(true, screw) ;                       }
+  else if (type == "ArduinoProMiniWithConnector") { PcbArduinoProMiniWithConnector(true, screw) ; }
+  else if (type == "BuckConv_1V25_5V_3A"        ) { PcbBuckConv_1V25_5V_3A(true, screw) ;         }
+  else if (type == "Esp01Breakout"              ) { PcbEsp01Breakout(true, screw) ;               }
+  else if (type == "Esp32C5DevKitChina"         ) { PcbEsp32C5DevKitChina(true, screw) ;          }
+  else if (type == "Ftdi"                       ) { PcbFtdi(true, screw) ;                        }
+  else if (type == "GpsWithAntenna"             ) { PcbGpsWithAntenna(true, screw) ;              }
+  else if (type == "Lcd1602"                    ) { PcbLcd1602(true, screw) ;                     }
+  else if (type == "LonganNano"                 ) { PcbLonganNano(true, screw) ;                  }
+  else if (type == "My74595"                    ) { PcbMy74595(true, screw) ;                     }
+  else if (type == "MyPower"                    ) { PcbMyPower(true, screw) ;                     }
+  else if (type == "NodeMcu2"                   ) { PcbNodeMcu2(true, screw) ;                    }
+  else if (type == "SdCard"                     ) { PcbSdCard(true, screw) ;                      }
+  else if (type == "Si4703"                     ) { PcbSi4703(true, screw) ;                      }
+  else if (type == "Ssd1306"                    ) { PcbSsd1306(true, screw) ;                     }
+  else if (type == "Tja1050"                    ) { PcbTja1050(true, screw) ;                     }
+  else if (type == "TouchButton"                ) { PcbTouchButton(true, screw) ;                 }
+  else if (type == "UbloxNeo6Mblue"             ) { PcbUbloxNeo6Mblue(true, screw) ;              }
+  else if (type == "UbloxNeo6Mred"              ) { PcbUbloxNeo6Mred(true, screw) ;               }
+  else if (type == "Uln2003"                    ) { PcbUln2003(true, screw) ;                     }
+  else if (type == "Ws2812"                     ) { PcbWs2812(true, screw) ;                      }
   else // Generic
   {
     clip  = clipEnable  ? [ clipOffset, clipLength ] : undef ;
@@ -94,7 +107,7 @@ PcbCustomizer(type, length, width, height, wallWidth, railHeight, railOffset,
 // railOffset: gap between pcb side and rail
 
 // pins: array of (offsetX, offsetY, radius) entries
-// cuts: array of (centerOffsetX, centerOffsetY, width, length, optionalOffsetH)
+// cuts: array of (centerOffsetX, centerOffsetY, width, length, optionalOffsetH) // offsetH == top of pcb
 // clip: array of (offset clip starts from end of holder, length of clip)
 // baseEnable:   add a base plane
 // screw:      add screw holes to the base: vector [ outer diameter, inner diameter, height, x-offset from pcb, optional y-offset ]
@@ -184,7 +197,7 @@ module PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffs
         for (pin = pins)
         {
           translate([pin[1], pin[0], 0])
-            cylinder(r = pin[2], h=frameHeight) ;
+            cylinder(r = pin[2], h=railHeight + pcbHeight) ;
         }
       }
     }
@@ -203,8 +216,8 @@ module PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffs
      for (cut = cuts)
       {
         offsetH = (cut[4] != undef) ? cut[4] : 0;
-        translate([cut[1], cut[0], railHeight + (pcbHeight + wallWidth+1-offsetH)/2 + offsetH])
-          cube([cut[3], cut[2], pcbHeight + wallWidth+1-offsetH], center=true) ;
+        translate([cut[1], cut[0], railHeight + pcbHeight + (wallWidth+0.1-offsetH)/2 + offsetH])
+          cube([cut[3], cut[2], wallWidth+0.1-offsetH], center=true) ;
       }
     }
       
@@ -257,8 +270,8 @@ module PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffs
         for (cut = cuts)
         {
           offsetH = (cut[4] != undef) ? cut[4] : 0;
-          translate([cut[1], cut[0], railHeight + (pcbHeight + wallWidth+1-offsetH)/2 + offsetH])
-            cube([cut[3], cut[2], pcbHeight + wallWidth+1-offsetH], center=true) ;
+          translate([cut[1], cut[0], railHeight + pcbHeight + (wallWidth+0.1-offsetH)/2 + offsetH])
+            cube([cut[3], cut[2], wallWidth+0.1-offsetH], center=true) ;
         }
       }
       if (useScrew)
@@ -430,7 +443,7 @@ module PcbMyPower(baseEnable = false, screw = undef)
   cuts =
     [
       [ pcbLength/2+wallWidth/2, 19/4, wallWidth+0.01, 19/2],
-      [ 5, pcbWidth/2-railOffset-wallWidth/2, 10, wallWidth+0.01, -railHeight ]
+      [ 5, pcbWidth/2-railOffset-wallWidth/2, 10, wallWidth+0.01, -pcbHeight-railHeight ]
     ] ;
 
   difference()
@@ -463,9 +476,9 @@ module PcbArduinoProMiniWithConnector(baseEnable = false, screw = undef)
   cuts =
     [
       [ pcbLength/2+wallWidth/2, 0, wallWidth+0.01, 18, wallWidth ],
-      [ +pcbLength/2-2, 0, 4, 10, -railHeight ],
-      [ -pcbLength/2+2, 0, 4, 10, -railHeight ],
-      [ 3-0.5, pcbWidth/2-railOffset-wallWidth/2, 6, wallWidth+0.01, -railHeight ]
+      [ +pcbLength/2-2, 0, 4, 10, -pcbHeight-railHeight ],
+      [ -pcbLength/2+2, 0, 4, 10, -pcbHeight-railHeight ],
+      [ 3-0.5, pcbWidth/2-railOffset-wallWidth/2, 6, wallWidth+0.01, -pcbHeight-railHeight ]
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
@@ -491,8 +504,8 @@ module PcbSi4703(baseEnable = false, screw = undef)
 
   cuts =
     [
-      [ pcbLength/2+wallWidth/2, 8, 2*wallWidth, 12, pcbHeight ],
-      [ 3.5, pcbWidth/2-railOffset-wallWidth/2, 6, 2*wallWidth, -railHeight ]
+      [ pcbLength/2+wallWidth/2, 8, 2*wallWidth, 12 ],
+      [ 3.5, pcbWidth/2-railOffset-wallWidth/2, 6, 2*wallWidth, -pcbHeight-railHeight ]
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
@@ -732,11 +745,10 @@ module PcbLonganNano(baseEnable = false, screw = undef)
 
   clip = [ 10, 5 ] ;
   
-  // cuts: array of (centerOffsetX, centerOffsetY, width, length, optionalOffsetH)
   cuts =
     [
-      [ +pcbLength/2+wallWidth/2, 0, wallWidth+0.01, 11, -railHeight ],
-      [ -pcbLength/2, 0, wallWidth*8, 12, -railHeight-2*wallWidth ],
+      [ +pcbLength/2+wallWidth/2, 0, wallWidth+0.01, 11, -pcbHeight-railHeight ],
+      [ -pcbLength/2, 0, wallWidth*8, 12, -pcbHeight-railHeight-2*wallWidth ],
     ] ;
      
 
@@ -761,7 +773,7 @@ module PcbMy74595(baseEnable = false, screw=screw)
 
   cuts =
     [
-      [ pcbLength/2, 0, wallWidth * 3, 21, pcbHeight-1 ]
+      [ pcbLength/2, 0, wallWidth * 3, 21 ]
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
@@ -800,7 +812,7 @@ module PcbFtdi(baseEnable = false, screw = undef)
 
   cuts =
     [
-      [ pcbLength/2-2, 0, 4, pcbWidth-railOffset, -railHeight ]
+      [ pcbLength/2-2, 0, 4, pcbWidth-railOffset, -pcbHeight-railHeight ]
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
@@ -828,8 +840,8 @@ module PcbTja1050(baseEnable = false, screw=undef)
   
   cuts =
     [
-      [ pcbLength/2-2, 0, 4, pcbWidth-2*railOffset+0.01, -railHeight ],
-      [-pcbLength/2+2, 0, 4, pcbWidth-2*railOffset+0.01, -railHeight ]
+      [ pcbLength/2-2, 0, 4, pcbWidth-2*railOffset+0.01, -pcbHeight-railHeight ],
+      [-pcbLength/2+2, 0, 4, pcbWidth-2*railOffset+0.01, -pcbHeight-railHeight ]
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
@@ -851,7 +863,7 @@ module PcbEsp01Breakout(baseEnable = false, screw=undef)
 
   cuts =
     [
-      [ pcbLength/2-2.5, 0, 5, pcbWidth-2*railOffset, -railHeight ],
+      [ pcbLength/2-2.5, 0, 5, pcbWidth-2*railOffset+0.1, -pcbHeight-railHeight ],
     ] ;
   
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
@@ -899,6 +911,79 @@ module PcbUbloxNeo6Mblue(baseEnable = false, srew=undef)
 
   PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
             clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+module PcbEsp32C5DevKitChina(baseEnable = false, srew=undef)
+{
+  pcbLength  = 47.2 + 0.6 ;
+  pcbWidth   = 25.5 + 0.6 ;
+  pcbHeight  =  1.6 ;
+  wallWidth  =  0.8 ;
+  railHeight =  2.5 ;
+  railOffset =  5.0 ;
+
+  clip = [ 7.5, 7.5 ] ;
+
+  cuts =
+  [
+    [ -pcbLength/2,   0, 5, 18.0 ],
+    [ pcbLength/2,  7.1, 5,  9.0 ],
+    [ pcbLength/2, -7.1, 5,  9.0 ],
+  ] ;
+
+  PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
+            cuts=cuts, clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+module PcbGpsWithAntenna(baseEnable = false, srew=undef)
+{
+  pcbLength  = 38.8 + 0.8 ;
+  pcbWidth   = 25.1 + 0.8 ;
+  pcbHeight  =  1.6 ;
+  wallWidth  =  0.8 ;
+  railHeight =  5.0 ;
+  railOffset =  -0.15 ;
+
+  clip = [ 1, 3.5 ] ;
+
+  cuts =
+  [
+    [ -pcbLength/2,   0, 5, 12.6, -pcbHeight-railHeight ],
+    [ pcbLength/2,   -2, 5,  9.0, -pcbHeight-2.8 ],
+  ] ;
+
+  PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
+            cuts=cuts, clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw) ;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+module PcbSdCard(baseEnable = false, srew=undef)
+{
+  pcbLength  = 18.1 + 0.6 ;
+  pcbWidth   = 17.9 + 0.8 ;
+  pcbHeight  =  1.6 ;
+  wallWidth  =  0.8 ;
+  railHeight =  2.5 ;
+  railOffset =  3.0 ;
+
+  clip = [ 4, 3.5 ] ;
+
+  cuts =
+  [
+    [ (-pcbLength-wallWidth)/2, 0, wallWidth+0.1, pcbWidth-2 ],
+    [ (pcbLength-3)/2, 0, 3, pcbWidth-2*railOffset+0.1, -pcbHeight-railHeight ]
+  ] ;
+
+  pins =
+  [
+    [ pcbLength/2 - 4.1, +pcbWidth/2 - 1.7, 0.8 ],
+    [ pcbLength/2 - 4.1, -pcbWidth/2 + 1.7, 0.8 ],
+  ] ;
+
+  PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
+            cuts=cuts, pins=pins, clip=clip, fingerHoleEnable=false, baseEnable=baseEnable, screw=screw) ;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
