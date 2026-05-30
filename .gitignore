@@ -2,6 +2,8 @@
 # emacs
 *~
 #*#
+
 gitignore/
-*/*.stl
-*/*.gcode
+
+*.stl
+*.gcode
