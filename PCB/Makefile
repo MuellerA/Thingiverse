@@ -2,14 +2,16 @@ OPENSCAD = /usr/bin/openscad
 CP       = /bin/cp -a
 RM       = /bin/rm -f
 
-Files	= TV/PcbNodeMcu2.stl		\
-	  TV/PcbArduinoProMini.stl	\
-	  TV/PcbLonganNano.stl		\
-	  TV/PcbFtdi.stl   		\
-	  TV/pcb.scad			\
-	  TV/img1.jpg			\
-	  TV/img2.jpg			\
-	  TV/img3.jpg			\
+Files	= \
+		TV/PcbNodeMcu2.stl		\
+		TV/PcbEsp32C5DevKitChina.stl \
+		TV/PcbArduinoProMiniWithConnector.stl	\
+		TV/PcbLonganNano.stl		\
+		TV/PcbFtdi.stl   		\
+		TV/pcb.scad			\
+		TV/img1.jpg			\
+		TV/img2.jpg			\
+		TV/img3.jpg			\
 
 ALL:	$(Files)
 
@@ -19,7 +21,7 @@ Clean:
 file2param = $(subst TV/Pcb,,$(subst .$(2),,$(1)))
 
 TV/Pcb%.stl:	pcb.scad
-	$(OPENSCAD) -o $@ -D type='"'$(call file2param,$@,stl)'"' $<
+	$(OPENSCAD) -o $@ -D type='"'$(call file2param,$@,stl)'"' -D lidEnable=true -D lidSplit=true $<
 
 TV/Pcb%.png:	pcb.scad
 	$(OPENSCAD) -o $@ -D type='"'$(call file2param,$@,stl)'"' --imgsize=800,600 --autocenter --projection=p --render $<

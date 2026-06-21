@@ -167,7 +167,6 @@ module PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffs
   module trapez(d = 0)
   {
     height = min(lidHeight/2, frameHeight) ;
-    echo(height);
     rotate([0, -90, 0])
     linear_extrude(height=wallWidth+2*d, center=true)
     polygon(points=[[0,-lidLength/2-d],[0,lidLength/2+d],[height+d, lidLength/2+height/25+d],[height+d, -lidLength/2-height/25-d]]);
@@ -329,7 +328,6 @@ module PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffs
 
   module top()
   {
-    echo("top", $children) ;
     difference()
     {
       union()
@@ -747,8 +745,6 @@ module Pcb28BYJ(mode = "pos", baseEnable = false)
   $fn = 40 ;
   w = 0.8 ;
   d = 0.4 ;
-
-echo(mode)
 
   if (mode == "pos")
   {
