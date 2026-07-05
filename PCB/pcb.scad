@@ -5,7 +5,7 @@
 // customizer
 
 // PCB type (for the 'Generic' type set the values in the 'Generic PCB' section below)
-type    = "NodeMcu2" ; // [28BYJ,ArduinoProMiniWithConnector,BuckConv_1V25_5V_3A,Esp01Breakout,Esp32C5DevKitChina,Esp32C5Xiao,Ftdi,GpsWithAntenna,Lcd1602,LonganNano,My74595,MyPower,NodeMcu2,SdCard,Si4703,Ssd1306,Tja1050,TouchButton,UbloxNeo6Mblue,UbloxNeo6Mred,Uln2003,Ws2812,Generic]
+type    = "NodeMcu2" ; // [28BYJ,ArduinoProMiniWithConnector,BuckConv_1V25_5V_3A,Esp01Breakout,Esp32C5DevKitChina,Esp32C5qszntec,Esp32C5Xiao,Ftdi,GpsWithAntenna,Lcd1602,LonganNano,My74595,MyPower,NodeMcu2,SdCard,Si4703,Ssd1306,Tja1050,TouchButton,UbloxNeo6Mblue,UbloxNeo6Mred,Uln2003,Ws2812,Generic]
 
 /* [Add Screw to base (mm)] */
 
@@ -78,6 +78,7 @@ module PcbCustomizer(type, length, width, height, wallWidth, railHeight, railOff
   else if (type == "BuckConv_1V25_5V_3A"        ) { PcbBuckConv_1V25_5V_3A(true, screw) ;         }
   else if (type == "Esp01Breakout"              ) { PcbEsp01Breakout(true, screw) ;               }
   else if (type == "Esp32C5DevKitChina"         ) { PcbEsp32C5DevKitChina(true, screw, lid) ;     }
+  else if (type == "Esp32C5qszntec"             ) { PcbEsp32C5qszntec(true, screw, lid) ;         }
   else if (type == "Esp32C5Xiao"                ) { PcbEsp32C5Xiao(true, screw, lid) ;            }
   else if (type == "Ftdi"                       ) { PcbFtdi(true, screw) ;                        }
   else if (type == "GpsWithAntenna"             ) { PcbGpsWithAntenna(true, screw) ;              }
@@ -1056,6 +1057,49 @@ module PcbEsp32C5DevKitChina(baseEnable = false, screw=undef, lid=undef)
         translate([4.8, 47.2/2-12.8, lid[1]-wallWidth/2])  cylinder(r=1, h=2*wallWidth, center=true);
         translate([-4.8, 47.2/2-12.8, lid[1]-wallWidth/2]) cylinder(r=1, h=2*wallWidth, center=true);
         translate([-2, 47.2/2-22, lid[1]-wallWidth/2])     cylinder(r=1, h=2*wallWidth, center=true);
+      }
+    }
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+module PcbEsp32C5qszntec(baseEnable = false, screw=undef, lid=undef)
+{
+  pcbLength  = 53.7 + 0.4 ;
+  pcbWidth   = 25.4 + 0.4 ;
+  pcbHeight  =  1.6 ;
+  wallWidth  =  0.8 ;
+  railHeight =  1.0 ;
+  railOffset =  5.0 ;
+
+  clip = [ 9, 6 ] ;
+
+  cuts =
+  [
+    // cuts: array of (centerOffsetX, centerOffsetY, width, length, optionalOffsetH, optionaHeight) // offsetH == top of pcb, height == top of frame
+
+    [ -pcbLength/2, -pcbWidth/2+7.4, 3.0, 3.0, 1, 3.0 ],
+    [ pcbLength/2,  7.1, 5,  9.0, 0, 3.3 ],
+    [ pcbLength/2, -7.1, 5,  9.0, 0, 3.3 ],
+  ] ;
+
+  $fa =  5 ;
+  $fs =  0.4 ;
+
+  lid = lid ? [ lid[0], 8.0, 4.5, 4 ] : undef ;
+
+  PcbHolder(pcbLength, pcbWidth, pcbHeight, wallWidth, railHeight, railOffset,
+            cuts=cuts, clip=clip, fingerHoleEnable=true, baseEnable=baseEnable, screw=screw, lid=lid)
+  {
+    union()
+    {}
+    union()
+    {
+      if (lid)
+      {
+        translate([pcbWidth/2-6.6, pcbLength/2-12.5, lid[1]-wallWidth/2])  cylinder(r=1, h=2*wallWidth, center=true);
+        translate([-pcbWidth/2+6.6, pcbLength/2-12.5, lid[1]-wallWidth/2]) cylinder(r=1, h=2*wallWidth, center=true);
+        translate([pcbWidth/2-6.1, pcbLength/2-23.5, lid[1]-wallWidth/2])     cylinder(r=1, h=2*wallWidth, center=true);
       }
     }
   }
